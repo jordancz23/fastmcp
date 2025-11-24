@@ -1,0 +1,2 @@
+# fastmcp
+my fist fastmcp
