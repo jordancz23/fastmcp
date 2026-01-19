@@ -1,17 +1,22 @@
+/**
+ * Generates a signature using a custom XOR-based hash algorithm.
+ * This function verifies the hash algorithm implementation with specific test values.
+ * 
+ * @returns {string} Base64-encoded signature with null byte terminator
+ */
 function generateSignature() {
-    // Corrected Salt from hex decoding
+    // Test values for algorithm verification
     const salt = "dasdasdarqwdasdasqwdasda";
-    
-    // Target timestamp
     const timestamp = 1768786378530; 
     
-    // Calculate Hash
+    // Calculate Hash using XOR operations with varying shift patterns
     const hashInput = salt + timestamp;
-    let hash = 0; 
+    let hash = 0;
+    const HASH_ITERATIONS = 20; // Number of XOR iterations per character
     
     for (let i = 0; i < hashInput.length; i++) {
         const charCode = hashInput.charCodeAt(i);
-        for (let y = 0; y < 20; y++) {
+        for (let y = 0; y < HASH_ITERATIONS; y++) {
             const mode = y % 3;
             const shift = y % 8;
             if (mode === 0) {
@@ -24,6 +29,7 @@ function generateSignature() {
         }
     }
     
+    // Convert to unsigned 32-bit integer and format as hexadecimal
     const hexHash = (hash >>> 0).toString(16);
     console.log("Calculated Hash (Hex):", hexHash);
     
